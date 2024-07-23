@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { toggleDarkTheme } from '../../app/features/themeSlice';
-import {Link} from "react-router-dom"
+import { toggleDarkTheme } from '../app/features/themeSlice';
+import { Link } from "react-router-dom"
 //import {Signin} from "../../auth/Signin.jsx"
 
 import Logo from '../../assets/Logo.svg'
@@ -29,11 +29,11 @@ const Navbar = () => {
 
                 <div>
                     <SignedIn>
-                        <UserButton/>
+                        <UserButton />
                     </SignedIn>
                     <SignedOut>
                         <Link to='/signin'>
-                            <Button text="Sign In" textClassName="font-[GillSans] text-sm" className="md:w-[4.75rem] md:h-[2rem] bg-buttonBg rounded-full flex justify-center items-center pt-1"/>
+                            <Button text="Sign In" textClassName="font-[GillSans] text-sm" className="md:w-[4.75rem] md:h-[2rem] bg-buttonBg rounded-full flex justify-center items-center pt-1" />
                         </Link>
                     </SignedOut>
                 </div>

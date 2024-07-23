@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import validationSchema from '../../schema/validationSchema';
+import validationSchema from '../schema/validationSchema';
 
 const CreateBlog = () => {
     return (

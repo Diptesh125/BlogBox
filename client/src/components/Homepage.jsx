@@ -11,7 +11,7 @@ import Blob from '../../assets/Blob.svg';
 import Button from '../Button/Button';
 import BlogCard from '../BlogCard/BlogCard';
 
-import { arrayOfBlogs } from '../../test/BlogCardTestData';
+import { arrayOfBlogs } from '../test/BlogCardTestData';
 
 const Homepage = () => {
     const darkMode = useSelector((state) => state.theme.darkMode)
