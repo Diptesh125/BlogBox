@@ -4,10 +4,10 @@ import { toggleDarkTheme } from '../app/features/themeSlice';
 import { Link } from "react-router-dom"
 //import {Signin} from "../../auth/Signin.jsx"
 
-import Logo from '../../assets/Logo.svg'
-import Moon from '../../assets/Moon.svg'
-import Sun from '../../assets/Sun.svg'
-import Button from '../Button/Button';
+import Logo from '../assets/Logo.svg'
+import Moon from '../assets/Moon.svg'
+import Sun from '../assets/Sun.svg'
+import Button from './Button';
 import { SignedIn, SignedOut, SignInButton, UserButton, useUser } from '@clerk/clerk-react';
 
 const Navbar = () => {

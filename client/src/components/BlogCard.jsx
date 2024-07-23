@@ -1,9 +1,9 @@
 import React from 'react'
 
-import FollowIcon from '../../assets/Follow.svg'
-import HeartIcon from '../../assets/Heart.svg'
-import CommentIcon from '../../assets/Comment.svg'
-import ShareIcon from '../../assets/Share.svg'
+import FollowIcon from '../assets/Follow.svg'
+import HeartIcon from '../assets/Heart.svg'
+import CommentIcon from '../assets/Comment.svg'
+import ShareIcon from '../assets/Share.svg'
 
 const BlogCard = (props) => {
     const heading = props.title

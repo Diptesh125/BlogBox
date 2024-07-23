@@ -3,13 +3,13 @@ import { useSelector } from 'react-redux';
 import Marquee from 'react-fast-marquee';
 // import axios from 'axios'
 
-import Line from '../../assets/LineDark.svg';
-import LineDark from '../../assets/LineDark.svg';
-import Pen from '../../assets/Pen.svg';
-import Blob from '../../assets/Blob.svg';
+import Line from '../assets/LineDark.svg';
+import LineDark from '../assets/LineDark.svg';
+import Pen from '../assets/Pen.svg';
+import Blob from '../assets/Blob.svg';
 
-import Button from '../Button/Button';
-import BlogCard from '../BlogCard/BlogCard';
+import Button from './Button';
+import BlogCard from './BlogCard';
 
 import { arrayOfBlogs } from '../test/BlogCardTestData';
 

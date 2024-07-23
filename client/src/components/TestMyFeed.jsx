@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPosts } from '../app/features/postsSlice.js';
-import BlogCard from './BlogCard/BlogCard.jsx';
+import BlogCard from './BlogCard.jsx';
 
 const TestMyFeed = () => {
     const dispatch = useDispatch();
