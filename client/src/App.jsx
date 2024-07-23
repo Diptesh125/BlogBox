@@ -4,6 +4,8 @@ import Navbar from './components/Navbar/Navbar'
 import { useSelector } from 'react-redux'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import TestMyFeed from './components/TestMyFeed'
+import Signin from './auth/Signin.jsx'
+
 const App = () => {
   const darkMode = useSelector(state => state.theme.darkMode)
 
@@ -19,6 +21,7 @@ const App = () => {
               <Route path='/myFeed' element={<TestMyFeed />} />
               <Route path='/explore' element={<Navbar />} />
               <Route path='/submit-form' element={<CreateBlog />} />
+              <Route path='/signin' element={<Signin />} />
             </Routes>
           </div>
         </div>

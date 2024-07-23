@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import themeReducer from './features/themeSlice/themeSlice'
+import themeReducer from './features/themeSlice'
 import postsReducer from './features/postsSlice'
 
 const store = configureStore({

@@ -1,11 +1,14 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { toggleDarkTheme } from '../../app/features/themeSlice/themeSlice';
+import { toggleDarkTheme } from '../../app/features/themeSlice';
+import {Link} from "react-router-dom"
+//import {Signin} from "../../auth/Signin.jsx"
 
 import Logo from '../../assets/Logo.svg'
 import Moon from '../../assets/Moon.svg'
 import Sun from '../../assets/Sun.svg'
 import Button from '../Button/Button';
+import { SignedIn, SignedOut, SignInButton, UserButton, useUser } from '@clerk/clerk-react';
 
 const Navbar = () => {
     const dispatch = useDispatch();
@@ -23,7 +26,17 @@ const Navbar = () => {
             </div>
             <div className='flex justify-center items-center mr-10 dark:text-white'>
                 <img src={darkMode ? Sun : Moon} onClick={() => dispatch(toggleDarkTheme())} className='h-6 pr-3 cursor-pointer dark:fill-white' />
-                <Button text="Sign Up" textClassName="font-[GillSans] text-sm" className="md:w-[4.75rem] md:h-[2rem] bg-buttonBg rounded-full flex justify-center items-center pt-1" />
+
+                <div>
+                    <SignedIn>
+                        <UserButton/>
+                    </SignedIn>
+                    <SignedOut>
+                        <Link to='/signin'>
+                            <Button text="Sign In" textClassName="font-[GillSans] text-sm" className="md:w-[4.75rem] md:h-[2rem] bg-buttonBg rounded-full flex justify-center items-center pt-1"/>
+                        </Link>
+                    </SignedOut>
+                </div>
             </div>
 
         </div>

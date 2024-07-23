@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import Marquee from 'react-fast-marquee';
 // import axios from 'axios'
 
-import Line from '../../assets/Line.svg';
+import Line from '../../assets/LineDark.svg';
 import LineDark from '../../assets/LineDark.svg';
 import Pen from '../../assets/Pen.svg';
 import Blob from '../../assets/Blob.svg';

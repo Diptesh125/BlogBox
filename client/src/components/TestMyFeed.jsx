@@ -1,8 +1,8 @@
 // components/MyFeed.jsx
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import TestCard from './TestCard.jsx';
 import { fetchPosts } from '../app/features/postsSlice.js';
+import BlogCard from './BlogCard/BlogCard.jsx';
 
 const TestMyFeed = () => {
     const dispatch = useDispatch();
@@ -23,7 +23,7 @@ const TestMyFeed = () => {
     } else if (status === 'succeeded') {
         content = posts.map((post) => (
             <div key={post._id} className="w-full md:w-1/2 lg:w-1/3 px-4">
-                <TestCard post={post} />
+                <BlogCard post={post} />
             </div>
         ));
     } else if (status === 'failed') {
