@@ -3,10 +3,9 @@ import { useSelector } from 'react-redux';
 import Marquee from 'react-fast-marquee';
 // import axios from 'axios'
 
-import Line from '../assets/LineDark.svg';
+import Line from '../assets/Line.svg';
 import LineDark from '../assets/LineDark.svg';
 import Pen from '../assets/Pen.svg';
-import Blob from '../assets/Blob.svg';
 
 import Button from './Button';
 import BlogCard from './BlogCard';
@@ -29,14 +28,13 @@ const Homepage = () => {
     //     fetchMoviesWithAxios(); // or fetchMoviesWithAxios();
     // }, []);
 
-    const gradientColor = darkMode ? '#191919' : 'white';
+    const gradientColor = darkMode ? '#1E1E1E' : '#fffefb';
 
     return (
-        <div className={`w-full flex justify-center items-center relative flex-col ${darkMode ? 'dark:bg-darkBg' : ''}`}>
+        <div className={`w-full flex justify-center items-center relative flex-col ${darkMode ? '' : ''}`}>
             <div className="relative w-full h-[400px] flex justify-center items-center flex-col">
-                <img src={Blob} alt="" className="w-full absolute -top-5 z-10" />
 
-                <div className="w-fit relative flex justify-center items-center text-black mt-10 z-10 dark:text-white">
+                <div className="w-fit relative flex justify-center items-center text-text-100 mt-10 z-10 dark:text-darkText-100">
                     <h1 className="lg:text-7xl font-[Diastema] ">
                         Stories that connect <br />
                         Ideas that <span className="font-[Pinyon] lg:text-8xl">Inspire</span>
@@ -46,18 +44,18 @@ const Homepage = () => {
 
                 <Button
                     text="Write"
-                    textClassName="font-[GillSans] text-lg text-black dark:text-white"
-                    className="lg:w-[7rem] lg:h-[3rem] bg-buttonBg rounded-full flex justify-center items-center pt-1 mt-10 z-10"
+                    textClassName="font-[GillSans] text-lg text-text-100 dark:text-darkText-100"
+                    className="lg:w-[7rem] lg:h-[3rem] bg-accent-100 dark:bg-darkAccent-100 rounded-full flex justify-center items-center pt-1 mt-10 z-10"
                     img={Pen}
                 />
             </div>
 
             <Marquee
-                className="h-[300px] overflow-hidden"
+                className="h-[300px] overflow-hidden "
                 pauseOnHover
-                gradient
-                gradientColor={gradientColor}
-                gradientWidth={200}
+            // gradient
+            // gradientColor={gradientColor}
+            // gradientWidth={200}
             >
                 {arrayOfBlogs.map((blog, index) => (
                     <BlogCard
