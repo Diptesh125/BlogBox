@@ -15,5 +15,16 @@
     font-family: GillSans;
     src: url("./fonts/GillSans.otf");
   }
+  @font-face {
+    font-family: Poppins-Bold;
+    src: url("./fonts/Poppins-Bold.ttf");
+  }
+  @font-face {
+    font-family: Poppins-SemiBold;
+    src: url("./fonts/Poppins-SemiBold.ttf");
+  }
+  @font-face {
+    font-family: Poppins-Regular;
+    src: url("./fonts/Poppins-Regular.ttf");
+  }
 }
-
