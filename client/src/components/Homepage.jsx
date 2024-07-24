@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Marquee from 'react-fast-marquee';
 // import axios from 'axios'
 
@@ -15,6 +16,8 @@ import { arrayOfBlogs } from '../test/BlogCardTestData';
 const Homepage = () => {
     const darkMode = useSelector((state) => state.theme.darkMode)
     const currLine = darkMode ? LineDark : Line
+
+    const navigate = useNavigate()
     // const [blogs, setBlogs] = useState([]);
 
     // Using Axios
@@ -28,7 +31,7 @@ const Homepage = () => {
     //     fetchMoviesWithAxios(); // or fetchMoviesWithAxios();
     // }, []);
 
-    const gradientColor = darkMode ? '#1E1E1E' : '#fffefb';
+    // const gradientColor = darkMode ? '#1E1E1E' : '#fffefb';
 
     return (
         <div className={`w-full flex justify-center items-center relative flex-col ${darkMode ? '' : ''}`}>
@@ -47,6 +50,7 @@ const Homepage = () => {
                     textClassName="font-[GillSans] text-lg text-text-100 dark:text-darkText-100"
                     className="lg:w-[7rem] lg:h-[3rem] bg-accent-100 dark:bg-darkAccent-100 rounded-full flex justify-center items-center pt-1 mt-10 z-10"
                     img={Pen}
+                    onClick={() => navigate('/submit-form')}
                 />
             </div>
 
