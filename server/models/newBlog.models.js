@@ -18,13 +18,27 @@ const newBlogSchema = new mongoose.Schema({
     },
     likeCount: {
         type: Number,
+        default: 0
     },
     comments: {
-        type: [String]
+        type: [String],
+        default: [""]
     },
-    author: {
-        type: Schema.Types.ObjectId,
-        ref: "Author"
+    authorId: {
+        type: String
+    },
+    authorFirstName: {
+        type: String
+    },
+    authorLastName: {
+        type: String
+    },
+    authorProfilePic: {
+        type: String
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
     }
 }, { timestamps: true })
 
