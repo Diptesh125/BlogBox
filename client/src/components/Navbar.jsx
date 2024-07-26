@@ -18,7 +18,7 @@ const Navbar = () => {
 
     // dark:drop-shadow-[0_4px_8px_rgba(106,126,252,0.4)]
     return (
-        <div className='md:h-[4.50rem] border-[1px] border-accent-100 bg-white/10 drop-shadow-lg backdrop-blur-lg rounded-full my-8 relative flex items-center justify-between '>
+        <div className='md:h-[4.50rem] border-[1px] border-accent-100 dark:border-darkAccent-100 bg-white/10 drop-shadow-lg backdrop-blur-lg rounded-full my-8 relative flex items-center justify-between '>
             <div className='h-10 flex items-center md:w-[10%] ml-10'>
                 <img src={Logo} alt="Logo" className='h-6' />
             </div>
