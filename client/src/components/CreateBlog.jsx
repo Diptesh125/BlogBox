@@ -1,15 +1,35 @@
 import React from 'react';
-import axios from 'axios'
+import { useState } from 'react';
+import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import validationSchema from '../schema/validationSchema';
 
+import UploadIcon from '../assets/Upload.svg'
+import Button from './Button';
+import CustomTagsInput from './TagsInput';
+import { useSession } from '@clerk/clerk-react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
+
 const CreateBlog = () => {
+    const [imagePreview, setImagePreview] = useState(null);
+
+    const { session } = useSession();
+
+    const author = {
+        id: session.publicUserData.id,
+        firstName: session.publicUserData.firstName,
+        lastName: session.publicUserData.lastName,
+        profilePic: session.publicUserData.imageUrl,
+    };
+
     return (
         <Formik
             initialValues={{
                 image: null,
                 title: '',
-                description: ''
+                description: '',
+                tags: [],
             }}
             validationSchema={validationSchema}
             onSubmit={(values, { setSubmitting }) => {
@@ -17,6 +37,16 @@ const CreateBlog = () => {
                 formData.append('image', values.image);
                 formData.append('title', values.title);
                 formData.append('description', values.description);
+                formData.append('tags', JSON.stringify(values.tags));
+                formData.append('author', JSON.stringify(author)); // Convert author object to JSON string
+
+                console.log('Form Data:', {
+                    image: values.image,
+                    title: values.title,
+                    description: values.description,
+                    tags: values.tags,
+                    author,
+                });
 
                 axios.post('http://localhost:8080/blog/submit-form', formData, {
                     headers: {
@@ -26,6 +56,7 @@ const CreateBlog = () => {
                     .then(response => {
                         console.log(response.data);
                         setSubmitting(false);
+                        toast("Published")
                     })
                     .catch(error => {
                         console.error('There was an error!', error);
@@ -33,39 +64,65 @@ const CreateBlog = () => {
                     });
             }}
         >
-            {({ setFieldValue }) => (
-                <Form>
-                    <div>
-                        <label htmlFor="image">Image Upload</label>
-                        <input
-                            id="image"
-                            name="image"
-                            type="file"
-                            onChange={(event) => {
-                                setFieldValue('image', event.currentTarget.files[0]);
-                            }}
-                        />
-                        <ErrorMessage name="image" component="div" />
+            {({ values, setFieldValue }) => (
+                <Form className='w-full'>
+                    <ToastContainer />
+                    <div className='h-10 w-full flex justify-between items-center'>
+                        <div className='h-full flex'>
+                            <label htmlFor="image" className='flex items-center bg-bg-200 hover:bg-primary-200 rounded-full px-4 py-2 pr-6 dark:bg-darkBg-200 dark:hover:bg-darkPrimary-200 dark:text-darkText-100'>
+                                <img src={UploadIcon} alt="" className='h-full w-10 ' />
+                                <p className='font-[Poppins-Regular] text-sm '>Upload a Banner</p>
+                            </label>
+                            <input
+                                id="image"
+                                name="image"
+                                type="file"
+                                onChange={(event) => {
+                                    const file = event.currentTarget.files[0];
+                                    setFieldValue('image', file);
+                                    if (file) {
+                                        setImagePreview(URL.createObjectURL(file));
+                                    } else {
+                                        setImagePreview(null);
+                                    }
+                                }}
+                                className='hidden h-10'
+                            />
+                            <ErrorMessage name="image" component="div" />
+
+                            <div className='h-full flex items-center justify-center ml-2'>
+                                <CustomTagsInput
+                                    value={values.tags}
+                                    onChange={(tags) => setFieldValue('tags', tags)}
+                                />
+                                <ErrorMessage name="tags" component="div" />
+                            </div>
+                        </div>
+
+                        <Button text="Publish" type="submit" className="md:h-full bg-accent-100 dark:bg-darkAccent-100 rounded-full flex justify-center items-center font-[Poppins-Regular] px-6" textClassName="text-text-100 dark:text-darkText-100" />
                     </div>
 
-                    <div>
-                        <label htmlFor="title">Title</label>
-                        <Field id="title" name="title" placeholder="Enter title" />
-                        <ErrorMessage name="title" component="div" />
+                    {values.image && (
+                        <div className='w-full h-64 flex justify-center items-center mt-4'>
+                            <img src={URL.createObjectURL(values.image)} alt="Preview" className='h-64 rounded-lg object-contain' />
+                        </div>
+                    )}
+
+                    <div className='flex justify-center flex-col mt-2'>
+                        <Field id="title" name="title" placeholder="Article Title..." className="w-full h-18 bg-bg-100 dark:bg-darkBg-100 font-[Poppins-Bold] text-4xl text-text-100 dark:text-darkText-100  " />
+                        <ErrorMessage name="title" component="div" className=' text-red-500' />
                     </div>
 
-                    <div>
-                        <label htmlFor="description">Description</label>
+                    <div className='h-full w-full mt-2'>
                         <Field
                             id="description"
                             name="description"
                             placeholder="Enter description"
                             as="textarea"
+                            className="h-full w-full text-lg font-[Poppins-Regular] bg-bg-100 dark:bg-darkBg-100 text-text-100 dark:text-darkText-100 "
                         />
                         <ErrorMessage name="description" component="div" />
                     </div>
-
-                    <button type="submit">Submit</button>
                 </Form>
             )}
         </Formik>

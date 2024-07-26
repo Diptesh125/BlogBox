@@ -22,6 +22,7 @@ const validationSchema = Yup.object().shape({
     description: Yup.string()
         .required('Description is required')
         .min(10, 'Description must be at least 10 characters long'),
+    tags: Yup.array().of(Yup.string()).max(3, 'You can add up to 3 tags only').required('At least one tag is required'),
 });
 
 export default validationSchema;
