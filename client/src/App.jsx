@@ -5,12 +5,12 @@ import { RedirectToSignIn, SignedIn, SignedOut, SignIn, SignUp } from '@clerk/cl
 import CreateBlog from './components/CreateBlog'
 import Homepage from './components/Homepage'
 import Navbar from './components/Navbar'
-import TestMyFeed from './components/TestMyFeed'
+import MyFeed from './components/MyFeed'
 import ProtectedRoute from './components/ProtectedRoute'
 import ProtectedPage from './components/ProtectedPage'
 
 import gsap from 'gsap'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import { show, hide } from './app/features/gradientSlice'
 
@@ -20,6 +20,7 @@ import { show, hide } from './app/features/gradientSlice'
 // import * as fiber from '@react-three/fiber'
 
 const App = () => {
+  const [extraCss, setExtraCss] = useState('')
   const darkMode = useSelector(state => state.theme.darkMode)
   const isVisible = useSelector(state => state.visibility.isVisible)
   const dispatch = useDispatch()
@@ -28,9 +29,12 @@ const App = () => {
   useEffect(() => {
     if (location.pathname === '/') {
       dispatch(show())
+      setExtraCss("h-screen")
     } else {
       dispatch(hide())
+      setExtraCss('')
     }
+
   }, [location, dispatch])
 
   useEffect(() => {
@@ -61,22 +65,12 @@ const App = () => {
   }, [darkMode, isVisible]);
 
   return (
-    <div className={`h-screen w-full flex items-center flex-col ${darkMode ? 'dark' : ''}`}>
+    <div className={`${extraCss} w-full flex items-center flex-col ${darkMode ? 'dark' : ''}`}>
       <div className='h-full w-full flex items-center flex-col dark:bg-darkBg-100'>
         <div className='md:w-2/3 lg:h-full lg:w-1/2'>
-          {/* <ShaderGradientCanvas
-            importedFiber={{ ...fiber, ...drei, ...reactSpring }}
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              pointerEvents: 'none',
-            }}
-          >
-            z<ShaderGradient control='query' urlString='https://www.shadergradient.co/customize?animate=on&axesHelper=off&bgColor1=%23000000&bgColor2=%23000000&brightness=1&cAzimuthAngle=180&cDistance=2.2&cPolarAngle=80&cameraZoom=9.1&color1=%2371c4ef&color2=%2371c4ef&color3=%23fffefb&destination=onCanvas&embedMode=off&envPreset=city&format=gif&fov=45&frameRate=10&gizmoHelper=hide&grain=off&lightType=3d&pixelDensity=1&positionX=0&positionY=0&positionZ=0&range=enabled&rangeEnd=40&rangeStart=0&reflection=0.1&rotationX=50&rotationY=0&rotationZ=-60&shader=defaults&toggleAxis=false&type=waterPlane&uAmplitude=0&uDensity=1.5&uFrequency=0&uSpeed=0.1&uStrength=1.5&uTime=8&wireframe=false&zoomOut=false' controlsEnabled={false} disablePan={true} disableZoom={true} disableRotate={true} />
-          </ShaderGradientCanvas> */}
+
           {isVisible && (
-            <div id='a' className='w-full h-screen absolute top-0 left-0'></div>
+            <div id='a' className='w-full h-fit absolute top-0 left-0'></div>
           )}
 
           <Navbar />
@@ -96,9 +90,9 @@ const App = () => {
             } />
             <Route path='/myFeed' element={
               <ProtectedRoute>
-                <TestMyFeed />
+                <MyFeed />
               </ProtectedRoute>
-            } />
+            } lazy={() => import('./components/MyFeed')} />
             <Route path='/explore' element={
               <ProtectedRoute>
                 <Navbar />

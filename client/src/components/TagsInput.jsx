@@ -10,7 +10,7 @@ const CustomTagsInput = ({ value, onChange, className }) => {
     };
 
     return (
-        <TagsInput value={value} onChange={handleChange} />
+        <TagsInput value={value} onChange={handleChange} className={className} />
     );
 };
 
