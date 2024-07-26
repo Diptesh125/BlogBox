@@ -4,15 +4,18 @@ import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import validationSchema from '../schema/validationSchema';
 
-import UploadIcon from '../assets/Upload.svg'
+import UploadIcon from '../assets/Upload.svg';
 import Button from './Button';
 import CustomTagsInput from './TagsInput';
 import { useSession } from '@clerk/clerk-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setImagePreview, clearImagePreview } from '../app/features/imagePreviewerSlice'
 import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'
+import 'react-toastify/dist/ReactToastify.css';
 
 const CreateBlog = () => {
-    const [imagePreview, setImagePreview] = useState(null);
+    const dispatch = useDispatch();
+    const imagePreview = useSelector((state) => state.imagePreview.imagePreview);
 
     const { session } = useSession();
 
@@ -38,7 +41,7 @@ const CreateBlog = () => {
                 formData.append('title', values.title);
                 formData.append('description', values.description);
                 formData.append('tags', JSON.stringify(values.tags));
-                formData.append('author', JSON.stringify(author)); // Convert author object to JSON string
+                formData.append('author', JSON.stringify(author));
 
                 console.log('Form Data:', {
                     image: values.image,
@@ -56,7 +59,8 @@ const CreateBlog = () => {
                     .then(response => {
                         console.log(response.data);
                         setSubmitting(false);
-                        toast("Published")
+                        toast("Published");
+                        dispatch(clearImagePreview());
                     })
                     .catch(error => {
                         console.error('There was an error!', error);
@@ -81,19 +85,20 @@ const CreateBlog = () => {
                                     const file = event.currentTarget.files[0];
                                     setFieldValue('image', file);
                                     if (file) {
-                                        setImagePreview(URL.createObjectURL(file));
+                                        dispatch(setImagePreview(URL.createObjectURL(file)));
                                     } else {
-                                        setImagePreview(null);
+                                        dispatch(clearImagePreview());
                                     }
                                 }}
                                 className='hidden h-10'
                             />
-                            <ErrorMessage name="image" component="div" />
+                            <ErrorMessage name="image" component="div" className='text-red-500' />
 
                             <div className='h-full flex items-center justify-center ml-2'>
                                 <CustomTagsInput
                                     value={values.tags}
                                     onChange={(tags) => setFieldValue('tags', tags)}
+                                    className='focus:outline-none'
                                 />
                                 <ErrorMessage name="tags" component="div" />
                             </div>
@@ -102,14 +107,14 @@ const CreateBlog = () => {
                         <Button text="Publish" type="submit" className="md:h-full bg-accent-100 dark:bg-darkAccent-100 rounded-full flex justify-center items-center font-[Poppins-Regular] px-6" textClassName="text-text-100 dark:text-darkText-100" />
                     </div>
 
-                    {values.image && (
+                    {values.image && imagePreview && (
                         <div className='w-full h-64 flex justify-center items-center mt-4'>
-                            <img src={URL.createObjectURL(values.image)} alt="Preview" className='h-64 rounded-lg object-contain' />
+                            <img src={imagePreview} alt="Preview" className='h-64 rounded-lg object-contain' />
                         </div>
                     )}
 
                     <div className='flex justify-center flex-col mt-2'>
-                        <Field id="title" name="title" placeholder="Article Title..." className="w-full h-18 bg-bg-100 dark:bg-darkBg-100 font-[Poppins-Bold] text-4xl text-text-100 dark:text-darkText-100  " />
+                        <Field id="title" name="title" placeholder="Article Title..." className="w-full h-18 bg-bg-100 dark:bg-darkBg-100 font-[Poppins-Bold] text-4xl text-text-100 dark:text-darkText-100 focus:outline-none" />
                         <ErrorMessage name="title" component="div" className=' text-red-500' />
                     </div>
 
@@ -119,7 +124,7 @@ const CreateBlog = () => {
                             name="description"
                             placeholder="Enter description"
                             as="textarea"
-                            className="h-full w-full text-lg font-[Poppins-Regular] bg-bg-100 dark:bg-darkBg-100 text-text-100 dark:text-darkText-100 "
+                            className="h-screen w-full text-lg font-[Poppins-Regular] bg-bg-100 dark:bg-darkBg-100 text-text-100 dark:text-darkText-100 focus:outline-none "
                         />
                         <ErrorMessage name="description" component="div" />
                     </div>
