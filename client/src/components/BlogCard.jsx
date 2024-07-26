@@ -9,6 +9,7 @@ const BlogCard = (props) => {
     const heading = props.title
     const text = props.content
     const tagsArray = props.tags
+    const authorFullName = props.author
 
     const truncatedText = text.substring(0, 220) + '...';
     return (
@@ -20,7 +21,7 @@ const BlogCard = (props) => {
                     <div className='h-8 w-full flex relative '>
                         <img src={props.profilePicture} alt="" className='h-full w-8 rounded-full mr-2 border-[1px]' />
                         <div className='flex flex-col justify-center '>
-                            <h1 className='text-xs text-text-100 dark:text-darkText-100' >{props.author}</h1>
+                            <h1 className='text-xs text-text-100 dark:text-darkText-100' >{authorFullName}</h1>
                             <p className='text-[8px] text-text-200 dark:text-darkText-200'>{props.date}</p>
                         </div>
                         <div className='h-full flex absolute right-0'>
@@ -61,7 +62,7 @@ const BlogCard = (props) => {
 
                     <div className='h-1/3 w-full py-2 px-2 font-[GillSans] text-xs flex justify-center flex-wrap'>
                         {tagsArray.map((tag, index) => (
-                            <p key={index} className='h-4 text-[7px] text-text-200 dark:text-darkText-200 m-[1px] px-2 pt-[5px] pb-1 border-[1px] border-accent-100 rounded-lg flex items-center shadow-sm'>#{tag}</p>
+                            <p key={index} className={`h-4 text-[7px] ${props.tagsClassNames} text-text-200 dark:text-darkText-200 m-[1px] px-2 pt-[5px] pb-1 border-[1px] border-accent-100 rounded-lg flex items-center shadow-sm`}>#{tag}</p>
                         ))}
                     </div>
                 </div>
