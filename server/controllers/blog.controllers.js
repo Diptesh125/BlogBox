@@ -1,4 +1,4 @@
-import { NewBlog } from '../models/newBlog.models.js';
+import { Blog } from '../models/Blog.models.js';
 import cloudinary from '../config/cloudinary.js';
 
 export const submitForm = async (req, res) => {
@@ -13,7 +13,7 @@ export const submitForm = async (req, res) => {
         const result = await cloudinary.uploader.upload(image.path);
 
         // Create a new blog post with the provided data
-        const newBlog = new NewBlog({
+        const blog = new Blog({
             imageUrl: result.secure_url,
             title,
             description,
@@ -25,10 +25,10 @@ export const submitForm = async (req, res) => {
             createdAt: new Date(),
         });
 
-        console.log(newBlog);
+        console.log(blog);
 
         // Save the new blog post to the database
-        await newBlog.save();
+        await blog.save();
 
         res.send('Form submitted successfully');
     } catch (error) {
@@ -36,3 +36,12 @@ export const submitForm = async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 };
+
+export const getPosts = async (req, res) => {
+    try {
+        const allBlogs = await Blog.find();
+        res.json(allBlogs)
+    } catch (error) {
+        res.status(500).send("Error fetching all the data")
+    }
+}

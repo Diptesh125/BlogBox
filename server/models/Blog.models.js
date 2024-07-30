@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-const newBlogSchema = new mongoose.Schema({
+const blogSchema = new mongoose.Schema({
     imageUrl: {
         type: String,
         required: true
@@ -42,4 +42,4 @@ const newBlogSchema = new mongoose.Schema({
     }
 }, { timestamps: true })
 
-export const NewBlog = mongoose.model('NewBlog', newBlogSchema)
+export const Blog = mongoose.model('Blog', blogSchema)
