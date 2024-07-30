@@ -1,20 +1,34 @@
 import mongoose from "mongoose";
-import { Schema } from "mongoose";
 
-const AuthorSchema = new mongoose.Schema({
-    authorName: {
+const authorSchema = new mongoose.Schema({
+    clerkId: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    firstName: {
+        type: String,
+        required: true,
+    },
+    lastName: {
+        type: String,
+        required: true,
+    },
+    username: {
+        type: String,
+        required: true,
+    },
+    profilePic: {
         type: String,
     },
-    followerCount: {
-        type: Number,
+    joinedDate: {
+        type: Date,
+        default: Date.now,
     },
-    totalLikeCount: {
+    totalLikes: {
         type: Number,
+        default: 0,
     },
-    allBlogs: {
-        type: Schema.Types.ObjectId,
-        ref: "NewBlog"
-    }
 }, { timestamps: true })
 
-export const Author = mongoose.model('Author', AuthorSchema)
+export const Author = mongoose.model('Author', authorSchema)
