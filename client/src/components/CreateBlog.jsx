@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setImagePreview, clearImagePreview } from '../app/features/imagePreviewerSlice'
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Navbar from './Navbar';
 
 const CreateBlog = () => {
     const dispatch = useDispatch();
@@ -71,6 +72,7 @@ const CreateBlog = () => {
             {({ values, setFieldValue }) => (
                 <Form className='w-full'>
                     <ToastContainer />
+                    <Navbar />
                     <div className='h-10 w-full flex justify-between items-center'>
                         <div className='h-full flex'>
                             <label htmlFor="image" className='flex items-center bg-bg-200 hover:bg-primary-200 rounded-full px-4 py-2 pr-6 dark:bg-darkBg-200 dark:hover:bg-darkPrimary-200 dark:text-darkText-100'>

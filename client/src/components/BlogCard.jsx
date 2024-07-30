@@ -57,7 +57,7 @@ const BlogCard = (props) => {
 
                 <div className='h-full w-1/3 flex items-center flex-col'>
                     <div className='h-5/6 flex justify-center items-end'>
-                        <img src={props.banner} alt="" className='h-24 w-24 rounded-md' />
+                        <img src={props.banner} alt="" className='h-[110px] w-full rounded-md' />
                     </div>
 
                     <div className='h-1/3 w-full py-2 px-2 font-[GillSans] text-xs flex justify-center flex-wrap'>

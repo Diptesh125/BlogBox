@@ -18,13 +18,13 @@ const Navbar = () => {
 
     // dark:drop-shadow-[0_4px_8px_rgba(106,126,252,0.4)]
     return (
-        <div className='md:h-[4.50rem] border-[1px] border-accent-100 dark:border-darkAccent-100 bg-white/10 drop-shadow-lg backdrop-blur-lg rounded-full my-8 relative flex items-center justify-between '>
+        <div className='w-full md:h-[4.50rem] border-[1px] border-accent-100 dark:border-darkAccent-100 bg-white/10 drop-shadow-lg backdrop-blur-lg rounded-full my-8 relative flex items-center justify-between '>
             <div className='h-10 flex items-center md:w-[10%] ml-10'>
-                <img src={Logo} alt="Logo" className='h-6' />
+                <img src={Logo} alt="Logo" className='h-6 cursor-pointer' onClick={() => navigate('/')} />
             </div>
             <div className='flex justify-center items-center font-[GillSans] text-md text-text-200 hover:text-text-100 pt-1 dark:text-white'>
-                <button className='px-4 pt-3 pb-2 hover:rounded-full hover:bg-primary-200 dark:hover:bg-darkPrimary-200 dark:hover:text-text-200' onClick={() => navigate('/MyFeed')}>My Feed</button>
-                <button className='px-4 pt-3 pb-2 hover:rounded-full hover:bg-primary-200 dark:hover:bg-darkPrimary-200 dark:hover:text-text-200' onClick={() => navigate('/Exolore')}>Explore</button>
+                <button className='px-4 pt-3 pb-2 hover:rounded-full hover:bg-darkPrimary-200 dark:hover:text-text-200' onClick={() => navigate('/MyFeed')}>My Feed</button>
+                <button className='px-4 pt-3 pb-2 hover:rounded-full hover:bg-darkPrimary-200 dark:hover:text-text-200' onClick={() => navigate('/Explore')}>Explore</button>
             </div>
             <div className='flex justify-center items-center mr-10 dark:text-white'>
                 <img src={darkMode ? Sun : Moon} onClick={() => dispatch(toggleDarkTheme())} className='h-6 pr-3 cursor-pointer' />

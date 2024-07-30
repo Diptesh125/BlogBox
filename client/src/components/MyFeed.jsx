@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import BlogCard from './BlogCard'; // Adjust the import path as necessary
+import { useSelector, useDispatch } from 'react-redux';
+import { likeBlog } from '../app/features/likeSlice';
+
+import Navbar from './Navbar';
 
 const MyFeed = () => {
     const [allBlogs, setAllBlogs] = useState([]);
+    const likes = useSelector((state) => state.likes.likes);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchBlogs = async () => {
@@ -20,8 +26,13 @@ const MyFeed = () => {
         fetchBlogs();
     }, []);
 
+    const handleLike = (blogId) => {
+        dispatch(likeBlog(blogId));
+    };
+
     return (
-        <div className="my-feed h-full container mx-auto p-4">
+        <div className="my-feed h-full container mx-auto">
+            <Navbar />
             <div className="h-full flex flex-col">
 
                 {/* Top Post of the Day */}
@@ -29,6 +40,7 @@ const MyFeed = () => {
                     <h2 className="text-2xl font-bold mb-2 text-text-100 dark:text-darkText-100">Top Post of the Day</h2>
                     {allBlogs.length > 0 ? (
                         <BlogCard
+                            id={allBlogs[0]._id}
                             title={allBlogs[0].title}
                             content={allBlogs[0].description}
                             tags={allBlogs[0].tags}
@@ -36,10 +48,11 @@ const MyFeed = () => {
                             profilePicture={allBlogs[0].authorProfilePic}
                             author={`${allBlogs[0].authorFirstName} ${allBlogs[0].authorLastName}`}
                             date={new Date(allBlogs[0].createdAt).toLocaleDateString()}
-                            likeCount={allBlogs[0].likeCount}
+                            likeCount={likes[allBlogs[0]._id] || allBlogs[0].likeCount}
                             commentCount={allBlogs[0].comments.length}
                             banner={allBlogs[0].imageUrl}
                             className="w-full"
+                            onLike={() => handleLike(allBlogs[0]._id)}
                         />
                     ) : (
                         <p>Loading...</p>
@@ -54,6 +67,7 @@ const MyFeed = () => {
                             {allBlogs.map(blog => (
                                 <BlogCard
                                     key={blog._id}
+                                    id={blog._id}
                                     title={blog.title}
                                     content={blog.description}
                                     tags={blog.tags}
@@ -61,10 +75,11 @@ const MyFeed = () => {
                                     profilePicture={blog.authorProfilePic}
                                     author={`${blog.authorFirstName} ${blog.authorLastName}`}
                                     date={new Date(blog.createdAt).toLocaleDateString()}
-                                    likeCount={blog.likeCount}
+                                    likeCount={likes[blog._id] || blog.likeCount}
                                     commentCount={blog.comments.length}
                                     banner={blog.imageUrl}
                                     className="mb-4 w-full"
+                                    onLike={() => handleLike(blog._id)}
                                 />
                             ))}
                         </div>
@@ -103,12 +118,6 @@ const MyFeed = () => {
                         </div>
                     </div>
                 </div>
-
-
-
-                {/* Small Search Bar */}
-
-
             </div>
         </div>
     );

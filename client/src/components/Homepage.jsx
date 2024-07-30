@@ -10,6 +10,7 @@ import Pen from '../assets/Pen.svg';
 
 import Button from './Button';
 import BlogCard from './BlogCard';
+import Navbar from './Navbar';
 
 const Homepage = () => {
     const darkMode = useSelector((state) => state.theme.darkMode)
@@ -36,6 +37,7 @@ const Homepage = () => {
 
     return (
         <div className={`w-full flex justify-center items-center relative flex-col ${darkMode ? '' : ''}`}>
+            <Navbar />
             <div className="relative w-full h-[400px] flex justify-center items-center flex-col">
 
                 <div className="w-fit relative flex justify-center items-center text-text-100 mt-10 z-10 dark:text-darkText-100">
