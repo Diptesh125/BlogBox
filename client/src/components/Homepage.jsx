@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Marquee from 'react-fast-marquee';
-// import axios from 'axios'
+import axios from 'axios'
 
 import Line from '../assets/Line.svg';
 import LineDark from '../assets/LineDark.svg';
@@ -11,27 +11,28 @@ import Pen from '../assets/Pen.svg';
 import Button from './Button';
 import BlogCard from './BlogCard';
 
-import { arrayOfBlogs } from '../test/BlogCardTestData';
-
 const Homepage = () => {
     const darkMode = useSelector((state) => state.theme.darkMode)
     const currLine = darkMode ? LineDark : Line
 
+    const [allBlogs, setAllBlogs] = useState([]);
+
     const navigate = useNavigate()
-    // const [blogs, setBlogs] = useState([]);
 
-    // Using Axios
-    // const fetchMoviesWithAxios = () => {
-    //     axios.get('https://dummyapi.online/api/blogposts')
-    //         .then(response => setBlogs(response.data))
-    //         .catch(error => console.error('Error:', error));
-    // };
+    useEffect(() => {
+        const fetchBlogs = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/blog/blogs');
+                const blogs = response.data;
+                console.log(blogs)
+                setAllBlogs(blogs);
+            } catch (error) {
+                console.error('Error fetching blogs:', error);
+            }
+        };
 
-    // useEffect(() => {
-    //     fetchMoviesWithAxios(); // or fetchMoviesWithAxios();
-    // }, []);
-
-    // const gradientColor = darkMode ? '#1E1E1E' : '#fffefb';
+        fetchBlogs();
+    }, []);
 
     return (
         <div className={`w-full flex justify-center items-center relative flex-col ${darkMode ? '' : ''}`}>
@@ -57,22 +58,19 @@ const Homepage = () => {
             <Marquee
                 className="h-[300px] overflow-hidden "
                 pauseOnHover
-            // gradient
-            // gradientColor={gradientColor}
-            // gradientWidth={200}
             >
-                {arrayOfBlogs.map((blog, index) => (
+                {allBlogs.map((blog, index) => (
                     <BlogCard
-                        key={blog.id}
-                        profilePicture={blog.profilePicture}
+                        key={blog._id}
                         title={blog.title}
-                        author={blog.author}
-                        date={blog.date}
                         content={blog.description}
-                        likeCount={blog.likeCount}
-                        commentCount={blog.commentCount}
-                        banner={blog.banner}
                         tags={blog.tags}
+                        profilePicture={blog.authorProfilePic}
+                        author={`${blog.authorFirstName} ${blog.authorLastName}`}
+                        date={new Date(blog.createdAt).toLocaleDateString()}
+                        likeCount={blog.likeCount}
+                        commentCount={blog.comments.length}
+                        banner={blog.imageUrl}
                         className={index % 2 === 0 ? 'mt-8' : null}
                     />
                 ))}
