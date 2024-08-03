@@ -29,6 +29,15 @@ const authorSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
+    totalFollwing: {
+        type: [String]
+    },
+    totalFollower: {
+        type: [Stirng]
+    },
+    blogsWritten: {
+        type: [String]
+    }
 }, { timestamps: true })
 
 export const Author = mongoose.model('Author', authorSchema)
