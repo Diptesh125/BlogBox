@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const authorSchema = new mongoose.Schema({
-    clerkId: {
+    authorId: {
         type: String,
         required: true,
         unique: true,
@@ -20,6 +20,11 @@ const authorSchema = new mongoose.Schema({
     },
     profilePic: {
         type: String,
+        required: true
+    },
+    emailAddress: {
+        type: String,
+        required: true
     },
     joinedDate: {
         type: Date,
@@ -33,7 +38,7 @@ const authorSchema = new mongoose.Schema({
         type: [String]
     },
     totalFollower: {
-        type: [Stirng]
+        type: [String]
     },
     blogsWritten: {
         type: [String]
