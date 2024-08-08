@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
-import { RedirectToSignIn, SignedIn, SignedOut, SignIn, SignUp } from '@clerk/clerk-react'
+import { Routes, Route, useLocation } from 'react-router-dom'
+import SignInPage from './auth/SignInPage'
+import SignUpPage from './auth/SignUpPage'
 
 import CreateBlog from './components/CreateBlog'
 import Homepage from './components/Homepage'
@@ -73,11 +74,10 @@ const App = () => {
             <div id='a' className='w-full h-fit absolute top-0 left-0'></div>
           )}
 
-          <Navbar />
           <Routes>
             <Route path='/' element={<Homepage />} />
-            <Route path='/signIn' redirectUrl={'/protected'} routing="path" element={<SignIn />} />
-            <Route path='/signUp' redirectUrl={'/protected'} routing="path" element={<SignUp />} />
+            <Route path='/signIn' redirectUrl={'/protected'} routing="path" element={<SignInPage />} />
+            <Route path='/signUp' redirectUrl={'/protected'} routing="path" element={<SignUpPage />} />
             <Route path='/protected' element={
               <ProtectedRoute>
                 <ProtectedPage />
