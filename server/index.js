@@ -7,12 +7,15 @@ import express from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 import { connectDB } from './config/db.js'
+import newUserInMongoDB from './config/webhook.js'
 
 import blogRoutes from './routes/blog.routes.js'
+import authRoutes from './routes/auth.routes.js'
+import authorRoutes from './routes/author.routes.js'
+
 
 const app = express()
 const PORT = process.env.PORT || '5050'
-
 
 app.use(cors({
     origin: 'http://localhost:5173',
@@ -26,6 +29,14 @@ app.use(bodyParser.urlencoded({ extended: true }))
 connectDB();
 
 app.use('/blog', blogRoutes)
+app.use('/auth', authRoutes)
+app.use('/author', authorRoutes)
+
+app.post(
+    "/api/webhooks",
+    bodyParser.raw({ type: "application/json" }),
+    newUserInMongoDB
+);
 
 app.listen(PORT, () => {
     console.log(`listening to http://localhost:${PORT}`);
