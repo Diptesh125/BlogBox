@@ -10,7 +10,6 @@ import { connectDB } from './config/db.js'
 import newUserInMongoDB from './config/webhook.js'
 
 import blogRoutes from './routes/blog.routes.js'
-import authRoutes from './routes/auth.routes.js'
 import authorRoutes from './routes/author.routes.js'
 
 
@@ -29,7 +28,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 connectDB();
 
 app.use('/blog', blogRoutes)
-app.use('/auth', authRoutes)
 app.use('/author', authorRoutes)
 
 app.post(
