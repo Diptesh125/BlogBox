@@ -6,19 +6,18 @@ const newUserInMongoDB = async function (req, res) {
         console.log('Received a webhook request');
 
         const payloadString = JSON.stringify(req.body);
-        console.log(payloadString);
 
         const svixHeaders = req.headers;
 
         const wh = new Webhook(process.env.CLERK_WEBHOOK_SECRET_KEY)
 
         const evt = wh.verify(payloadString, svixHeaders);
-        console.log(evt);
+        // console.log(evt);
 
         const { id, ...attributes } = evt.data;
 
         const eventType = evt.type;
-        console.log(eventType);
+        // console.log(eventType);
 
 
         if (eventType === 'user.created') {
@@ -38,10 +37,7 @@ const newUserInMongoDB = async function (req, res) {
                 emailAddress: emailAddress
             })
 
-            console.log(author);
-
             await author.save();
-            res.send("author created")
         }
 
         res.status(200).json({
