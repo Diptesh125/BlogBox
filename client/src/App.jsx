@@ -14,6 +14,7 @@ import gsap from 'gsap'
 import { useEffect, useState } from 'react'
 
 import { show, hide } from './app/features/gradientSlice'
+import BlogPage from './components/BlogPage'
 
 // import { ShaderGradientCanvas, ShaderGradient } from 'shadergradient'
 // import * as reactSpring from '@react-spring/three'
@@ -101,6 +102,11 @@ const App = () => {
             <Route path='/submit-form' element={
               <ProtectedRoute>
                 <CreateBlog />
+              </ProtectedRoute>
+            } />
+            <Route path="/blog/:blogId" element={
+              <ProtectedRoute>
+                <BlogPage />
               </ProtectedRoute>
             } />
           </Routes>

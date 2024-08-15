@@ -25,8 +25,10 @@ const Homepage = () => {
             try {
                 const response = await axios.get('http://localhost:8080/blog/blogs');
                 const blogs = response.data;
-                console.log(blogs)
+                console.log(blogs);
                 setAllBlogs(blogs);
+                const authorId = blogs.authorId;
+                console.log(authorId);
             } catch (error) {
                 console.error('Error fetching blogs:', error);
             }
@@ -34,6 +36,19 @@ const Homepage = () => {
 
         fetchBlogs();
     }, []);
+
+    useEffect(() => {
+        const fetchUserDetails = () => {
+            try {
+
+
+            } catch (error) {
+                console.log("Error fetching user details")
+            }
+        }
+
+        fetchUserDetails()
+    }, [])
 
     return (
         <div className={`w-full flex justify-center items-center relative flex-col ${darkMode ? '' : ''}`}>
@@ -64,9 +79,11 @@ const Homepage = () => {
                 {allBlogs.map((blog, index) => (
                     <BlogCard
                         key={blog._id}
+                        id={blog._id}
                         title={blog.title}
                         content={blog.description}
                         tags={blog.tags}
+                        tagsClassNames="h-4 text-[8px]"
                         profilePicture={blog.authorProfilePic}
                         author={`${blog.authorFirstName} ${blog.authorLastName}`}
                         date={new Date(blog.createdAt).toLocaleDateString()}
