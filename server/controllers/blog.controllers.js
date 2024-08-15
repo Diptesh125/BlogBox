@@ -1,13 +1,16 @@
 import { Blog } from '../models/Blog.models.js';
+import { Author } from '../models/Author.models.js';
 import cloudinary from '../config/cloudinary.js';
 
 export const submitForm = async (req, res) => {
     try {
-        const { title, description, tags } = req.body;
+        const { title, description, tags, authorId } = req.body;
         const image = req.file;
-        const author = JSON.parse(req.body.author); // Parse the author JSON string
 
-        console.log(author);
+        const authorDetails = await Author.findOne({ authorId })
+        // console.log(authorDetails)
+
+        // console.log(authorId)
 
         // Upload the image to Cloudinary
         const result = await cloudinary.uploader.upload(image.path);
@@ -15,19 +18,20 @@ export const submitForm = async (req, res) => {
         // Create a new blog post with the provided data
         const blog = new Blog({
             imageUrl: result.secure_url,
-            title,
-            description,
+            title: title,
+            description: description,
             tags: JSON.parse(tags),
-            authorId: author.id,
-            authorFirstName: author.firstName,
-            authorLastName: author.lastName,
-            authorProfilePic: author.profilePic,
+            authorId: authorId,
+            authorFirstName: authorDetails.firstName,
+            authorLastName: authorDetails.lastName,
+            authorUserName: authorDetails.username,
+            authorProfilePic: authorDetails.profilePic,
+            authorEmailAddress: authorDetails.emailAddress,
             createdAt: new Date(),
         });
 
         console.log(blog);
 
-        // Save the new blog post to the database
         await blog.save();
 
         res.send('Form submitted successfully');
@@ -39,9 +43,26 @@ export const submitForm = async (req, res) => {
 
 export const getPosts = async (req, res) => {
     try {
-        const allBlogs = await Blog.find();
-        res.json(allBlogs)
+        const allBlogs = await Blog.find()
+        // console.log(allBlogs);
+        res.json(allBlogs);
     } catch (error) {
         res.status(500).send("Error fetching all the data")
+    }
+}
+
+export const getBlogById = async (req, res) => {
+    try {
+        const blogId = req.params.blogId
+
+        const blog = await Blog.findById(blogId)
+        if (!blog) {
+            return res.status(404).json({ message: 'Blog not found' });
+        }
+
+        res.status(200).json(blog)
+
+    } catch (error) {
+        res.status(500).json(error)
     }
 }
