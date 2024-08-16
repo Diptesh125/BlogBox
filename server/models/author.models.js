@@ -3,8 +3,7 @@ import mongoose from "mongoose";
 const authorSchema = new mongoose.Schema({
     authorId: {
         type: String,
-        required: true,
-        unique: true,
+        required: true
     },
     firstName: {
         type: String,
