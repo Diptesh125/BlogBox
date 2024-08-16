@@ -14,27 +14,41 @@ const blogSchema = new mongoose.Schema({
         required: true
     },
     tags: {
-        type: [String]
+        type: [String],
+        default: []
     },
     likeCount: {
-        type: Number,
-        default: 0
+        type: [String],
+        default: []
     },
     comments: {
         type: [String],
-        default: [""]
+        default: []
     },
     authorId: {
-        type: String
+        type: String,
+        required: true,
     },
     authorFirstName: {
-        type: String
+        type: String,
+        required: true,
+        default: null
     },
     authorLastName: {
-        type: String
+        type: String,
+        default: null
+    },
+    authorUserName: {
+        type: String,
+        required: true
     },
     authorProfilePic: {
-        type: String
+        type: String,
+        required: true
+    },
+    authorEmailAddress: {
+        type: String,
+        required: true
     },
     createdAt: {
         type: Date,
