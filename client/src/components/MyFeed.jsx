@@ -1,18 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import BlogCard from './BlogCard'; // Adjust the import path as necessary
-import { useSelector, useDispatch } from 'react-redux';
-import { useUser } from '@clerk/clerk-react'; // Import Clerk's useUser hook
 import Navbar from './Navbar';
 
 const MyFeed = () => {
     const [allBlogs, setAllBlogs] = useState([]);
     const [allAuthors, setAllAuthors] = useState([]);
-    const likes = useSelector((state) => state.likes.likes);
-    const dispatch = useDispatch();
-
-    // Get the current user from Clerk
-    const { user } = useUser();
 
     useEffect(() => {
         const fetchBlogs = async () => {
@@ -34,15 +27,6 @@ const MyFeed = () => {
         fetchBlogs();
     }, []);
 
-    // const handleLike = (blogId) => {
-    //     if (user && user.id) {
-    //         const authorId = user.id; // Get the current logged-in user's authorId
-    //         dispatch(toggleLike({ blogId, authorId }));
-    //     } else {
-    //         console.error('User is not logged in');
-    //     }
-    // };
-
     return (
         <div className="my-feed h-full container mx-auto">
             <Navbar />
@@ -63,11 +47,10 @@ const MyFeed = () => {
                             profilePicture={allBlogs[allBlogs.length - 1].authorProfilePic}
                             author={`${allBlogs[allBlogs.length - 1].authorFirstName} ${allBlogs[allBlogs.length - 1].authorLastName}`}
                             date={new Date(allBlogs[allBlogs.length - 1].createdAt).toLocaleDateString()}
-                            likeCount={likes[allBlogs[allBlogs.length - 1]._id] || allBlogs[allBlogs.length - 1].likeCount.length}
+                            likeCount={allBlogs[allBlogs.length - 1].likeCount.length}
                             commentCount={allBlogs[allBlogs.length - 1].comments.length}
                             banner={allBlogs[allBlogs.length - 1].imageUrl}
                             className="w-full"
-                        // onLike={() => handleLike(allBlogs[allBlogs.length - 1]._id)}
                         />
                     ) : (
                         <p>Loading...</p>
@@ -89,14 +72,13 @@ const MyFeed = () => {
                                     contentClassNames="text-md"
                                     tags={blog.tags}
                                     tagsClassNames="h-6 text-xs"
-                                    profilePicture={blog.authorProfilePic} // Author details included
-                                    author={`${blog.authorFirstName} ${blog.authorLastName}`} // Author details included
+                                    profilePicture={blog.authorProfilePic}
+                                    author={`${blog.authorFirstName} ${blog.authorLastName}`}
                                     date={new Date(blog.createdAt).toLocaleDateString()}
-                                    likeCount={likes[blog._id] || blog.likeCount.length} // Updated to use .length
+                                    likeCount={blog.likeCount.length}
                                     commentCount={blog.comments.length}
                                     banner={blog.imageUrl}
                                     className="mb-4 w-full"
-                                // onLike={() => handleLike(blog._id)}
                                 />
                             ))}
                         </div>

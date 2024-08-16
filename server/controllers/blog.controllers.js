@@ -66,3 +66,28 @@ export const getBlogById = async (req, res) => {
         res.status(500).json(error)
     }
 }
+
+export const toggleLike = async (req, res) => {
+    const { userId, blogId } = req.body
+    try {
+        const blog = await Blog.findById(blogId)
+        if (!blog) {
+            return res.status(404).send('Blog not found');
+        }
+
+        const likeIndex = blog.likeCount.indexOf(userId);
+        if (likeIndex === -1) {
+            // User has not liked the blog yet, so add their ID
+            blog.likeCount.push(userId);
+        } else {
+            // User has already liked the blog, so remove their ID
+            blog.likeCount.splice(likeIndex, 1);
+        }
+
+        await blog.save();
+
+        res.status(200).send('Like status updated successfully');
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}

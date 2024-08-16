@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { useUser } from '@clerk/clerk-react';
+import { useDispatch } from 'react-redux';
+import { toggleLike } from '../app/features/likeSlice';
 
 import Navbar from './Navbar'
 
@@ -9,9 +12,20 @@ import HeartIcon from '../assets/Heart.svg';
 import CommentIcon from '../assets/Comment.svg';
 import ShareIcon from '../assets/Share.svg';
 
+
 const BlogPage = () => {
     const { blogId } = useParams(); // Get the blog ID from the URL
     const [blog, setBlog] = useState(null);
+    const { user } = useUser()
+    const userId = user.id
+
+    const dispatch = useDispatch()
+
+    const handleLike = () => {
+        dispatch(toggleLike({ blogId, userId }));
+    };
+
+
 
     useEffect(() => {
         const fetchBlog = async () => {
@@ -20,7 +34,6 @@ const BlogPage = () => {
                 console.log(response);
 
                 setBlog(response.data);
-                console.log(blog.comments);
 
             } catch (error) {
                 console.error('Error fetching blog details:', error);
@@ -49,7 +62,7 @@ const BlogPage = () => {
             </div>
             <div className='w-full flex items-center mt-2'>
                 <div className='flex mr-2'>
-                    <img src={HeartIcon} alt="" className='h-full w-6 mr-1' />
+                    <img src={HeartIcon} alt="" className='h-full w-6 mr-1' onClick={handleLike} />
                     <h1 className='h-full flex font-[GillSans] items-center mt-[2px] text-text-200 dark:text-darkText-200'>{blog.likeCount.length} Likes</h1>
                 </div>
 
