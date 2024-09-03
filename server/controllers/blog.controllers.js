@@ -91,3 +91,30 @@ export const toggleLike = async (req, res) => {
         res.status(500).json(error)
     }
 }
+
+export const createComment = async (req, res) => {
+    const { blogId, userId, userName, commentText } = req.body;
+
+    try {
+        const blog = await Blog.findById(blogId);
+
+        if (!blog) {
+            return res.status(404).json({ error: 'Blog not found' });
+        }
+
+        const newComment = {
+            userId,
+            userName,
+            commentText,
+            createdAt: new Date()
+        };
+
+        blog.comments.push(newComment);
+        await blog.save();
+
+        res.json(blog);
+    } catch (error) {
+        console.error('Error adding comment:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+}

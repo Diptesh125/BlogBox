@@ -21,8 +21,10 @@ export const { setLikeState } = likeSlice.actions;
 export const toggleLike = ({ blogId, userId }) => async dispatch => {
     try {
         const response = await axios.post(`http://localhost:8080/blog/like`, { userId, blogId });
+
         if (response.data && typeof response.data.likeCount !== 'undefined') {
             dispatch(setLikeState({ blogId, likeCount: response.data.likeCount }));
+            return { blogId, likeCount: response.data.likeCount }; // Return the payload
         } else {
             console.error('Unexpected response format:', response.data);
         }
@@ -30,5 +32,6 @@ export const toggleLike = ({ blogId, userId }) => async dispatch => {
         console.error('Error liking the post:', error);
     }
 };
+
 
 export default likeSlice.reducer;

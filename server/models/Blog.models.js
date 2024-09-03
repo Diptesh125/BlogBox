@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import commentSchema from "./Comment.models.js";
 
 const blogSchema = new mongoose.Schema({
     imageUrl: {
@@ -22,7 +23,7 @@ const blogSchema = new mongoose.Schema({
         default: []
     },
     comments: {
-        type: [String],
+        type: [commentSchema],
         default: []
     },
     authorId: {

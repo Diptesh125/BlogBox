@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { toggleLike } from '../app/features/likeSlice';
 
 import Navbar from './Navbar'
+import CommentSidebar from './CommentSidebar';
 
 import FollowIcon from '../assets/Follow.svg';
 import HeartIcon from '../assets/Heart.svg';
@@ -16,23 +17,38 @@ import ShareIcon from '../assets/Share.svg';
 const BlogPage = () => {
     const { blogId } = useParams(); // Get the blog ID from the URL
     const [blog, setBlog] = useState(null);
+    const [showComments, setShowComments] = useState(false);
     const { user } = useUser()
     const userId = user.id
 
     const dispatch = useDispatch()
 
-    const handleLike = () => {
-        dispatch(toggleLike({ blogId, userId }));
+    const handleLike = async () => {
+        try {
+            // Dispatch the toggleLike action and wait for it to complete
+            const response = await dispatch(toggleLike({ blogId, userId }));
+
+            // If the response is successful, update the blog state with the new like count
+            if (response && response.payload) {
+                setBlog(prevBlog => ({
+                    ...prevBlog,
+                    likeCount: response.payload.likeCount
+                }));
+            }
+        } catch (error) {
+            console.error('Error liking the post:', error);
+        }
     };
 
+    const toggleCommentSidebar = () => {
+        setShowComments(!showComments);
+    };
 
 
     useEffect(() => {
         const fetchBlog = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/blog/${blogId}`);
-                console.log(response);
-
                 setBlog(response.data);
 
             } catch (error) {
@@ -67,7 +83,7 @@ const BlogPage = () => {
                 </div>
 
                 <div className='flex mr-2'>
-                    <img src={CommentIcon} alt="" className='h-full w-6 mr-1' />
+                    <img src={CommentIcon} alt="" className='h-full w-6 mr-1' onClick={toggleCommentSidebar} />
                     <h1 className='h-full flex font-[GillSans] items-center mt-[2px] text-text-200 dark:text-darkText-200'>{blog.comments.length} Comments</h1>
                 </div>
 
@@ -82,6 +98,7 @@ const BlogPage = () => {
             <div className='h-full w-full mt-2'>
                 <p className="h-screen w-full text-lg font-[Poppins-Regular] bg-bg-100 dark:bg-darkBg-100 text-text-100 dark:text-darkText-100 focus:outline-none ">{blog.description}</p>
             </div>
+            {showComments && <CommentSidebar blogId={blogId} comments={blog.comments} onClose={toggleCommentSidebar} />}
         </div>
     );
 };
