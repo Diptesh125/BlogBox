@@ -7,6 +7,7 @@ import { toggleLike } from '../app/features/likeSlice';
 
 import Navbar from './Navbar'
 import CommentSidebar from './CommentSidebar';
+import ShareModal from './ShareModal';
 
 import FollowIcon from '../assets/Follow.svg';
 import HeartIcon from '../assets/Heart.svg';
@@ -18,6 +19,7 @@ const BlogPage = () => {
     const { blogId } = useParams(); // Get the blog ID from the URL
     const [blog, setBlog] = useState(null);
     const [showComments, setShowComments] = useState(false);
+    const [showShareModal, setShowShareModal] = useState(false);
     const { user } = useUser()
     const userId = user.id
 
@@ -44,6 +46,9 @@ const BlogPage = () => {
         setShowComments(!showComments);
     };
 
+    const toggleShareModal = () => {
+        setShowShareModal(!showShareModal);
+    };
 
     useEffect(() => {
         const fetchBlog = async () => {
@@ -62,6 +67,8 @@ const BlogPage = () => {
     if (!blog) {
         return <p>Loading...</p>;
     }
+
+    const blogLink = `${window.location.origin}/blog/${blog._id}`;
 
     return (
         <div className='w-full'>
@@ -88,7 +95,7 @@ const BlogPage = () => {
                 </div>
 
                 <div className='flex mr-2'>
-                    <img src={ShareIcon} alt="" className='h-full w-6 mr-1' />
+                    <img src={ShareIcon} alt="" className='h-full w-6 mr-1' onClick={toggleShareModal} />
                     <h1 className='h-full flex font-[GillSans] items-center mt-[4px] text-text-200 dark:text-darkText-200 '>Share</h1>
                 </div>
             </div>
@@ -99,6 +106,7 @@ const BlogPage = () => {
                 <p className="h-screen w-full text-lg font-[Poppins-Regular] bg-bg-100 dark:bg-darkBg-100 text-text-100 dark:text-darkText-100 focus:outline-none ">{blog.description}</p>
             </div>
             {showComments && <CommentSidebar blogId={blogId} comments={blog.comments} onClose={toggleCommentSidebar} />}
+            {showShareModal && <ShareModal link={blogLink} onClose={toggleShareModal} />}
         </div>
     );
 };
