@@ -14,12 +14,6 @@ const BlogCard = (props) => {
 
     const truncatedText = text.substring(0, 200) + '...';
 
-    // const history = useHistory();
-
-    // const handleClick = () => {
-    //     history.push(`/blogs/${props.key}`);
-    // };
-
     return (
         <Link to={`/blog/${props.id}`}>
             <div className={`h-[250px] w-[400px] mr-5 ${props.className} bg-bg-100 shadow-md border-[1.5px] border-accent-100 hover:border-accent-200 rounded-lg dark:bg-darkBg-100 dark:border-accent-100 dark:hover:border-darkAccent-100`} >

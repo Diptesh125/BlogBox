@@ -1,31 +1,24 @@
 import React from 'react';
-import { useState } from 'react';
 import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import validationSchema from '../schema/validationSchema';
+import { useDispatch, useSelector } from 'react-redux';
+import { setImagePreview, clearImagePreview } from '../app/features/imagePreviewerSlice';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useUser } from '@clerk/clerk-react';
+
+import Navbar from './Navbar';
+import CustomTagsInput from './TagsInput';
 
 import UploadIcon from '../assets/Upload.svg';
 import Button from './Button';
-import CustomTagsInput from './TagsInput';
-import { useSession } from '@clerk/clerk-react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setImagePreview, clearImagePreview } from '../app/features/imagePreviewerSlice'
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Navbar from './Navbar';
 
 const CreateBlog = () => {
     const dispatch = useDispatch();
     const imagePreview = useSelector((state) => state.imagePreview.imagePreview);
 
-    const { session } = useSession();
-
-    const author = {
-        id: session.publicUserData.id,
-        firstName: session.publicUserData.firstName,
-        lastName: session.publicUserData.lastName,
-        profilePic: session.publicUserData.imageUrl,
-    };
+    const { user } = useUser()
 
     return (
         <Formik
@@ -42,14 +35,14 @@ const CreateBlog = () => {
                 formData.append('title', values.title);
                 formData.append('description', values.description);
                 formData.append('tags', JSON.stringify(values.tags));
-                formData.append('author', JSON.stringify(author));
+                formData.append('authorId', user.id);
 
                 console.log('Form Data:', {
                     image: values.image,
                     title: values.title,
                     description: values.description,
                     tags: values.tags,
-                    author,
+                    author: user.id,
                 });
 
                 axios.post('http://localhost:8080/blog/submit-form', formData, {
@@ -58,6 +51,7 @@ const CreateBlog = () => {
                     },
                 })
                     .then(response => {
+
                         console.log(response.data);
                         setSubmitting(false);
                         toast("Published");
