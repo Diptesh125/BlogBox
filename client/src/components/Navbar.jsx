@@ -36,6 +36,11 @@ const Navbar = () => {
                 <img src={Logo} alt="Logo" className='h-6 cursor-pointer' onClick={() => navigate('/')} />
             </div>
 
+            <div className='flex flex-col md:flex-row justify-center items-center font-[GillSans] text-md text-text-200 hover:text-text-100 pt-1 dark:text-white'>
+                <button className='px-4 py-2 md:py-0 hover:bg-darkPrimary-200 dark:hover:text-text-200 w-full md:w-auto' onClick={() => navigate('/MyFeed')}>{isSignedIn ? 'My Feed' : 'Home'}</button>
+                <button className='px-4 py-2 md:py-0 hover:bg-darkPrimary-200 dark:hover:text-text-200 w-full md:w-auto' onClick={() => navigate('/Explore')}>Explore</button>
+            </div>
+
             <div className='flex items-center'>
                 <Button
                     text="Write"
@@ -57,10 +62,7 @@ const Navbar = () => {
 
                 {/* Navigation links - hidden on mobile unless menu is open */}
                 <div className={`${isMenuOpen ? 'flex' : 'hidden'} md:flex flex-col md:flex-row absolute md:relative top-full right-0 w-48 md:w-auto bg-white md:bg-transparent dark:bg-darkBg-100 md:dark:bg-transparent z-10 md:z-auto mt-2 md:mt-0 rounded-lg shadow-lg md:shadow-none`}>
-                    <div className='flex flex-col md:flex-row justify-center items-center font-[GillSans] text-md text-text-200 hover:text-text-100 pt-1 dark:text-white'>
-                        <button className='px-4 py-2 md:py-0 hover:bg-darkPrimary-200 dark:hover:text-text-200 w-full md:w-auto' onClick={() => navigate('/MyFeed')}>{isSignedIn ? 'My Feed' : 'Home'}</button>
-                        <button className='px-4 py-2 md:py-0 hover:bg-darkPrimary-200 dark:hover:text-text-200 w-full md:w-auto' onClick={() => navigate('/Explore')}>Explore</button>
-                    </div>
+
                     <div className='flex flex-col md:flex-row justify-center items-center dark:text-white mt-2 md:mt-0'>
                         <div className="w-full md:w-auto py-2 md:py-0">
                             <SignedIn>
