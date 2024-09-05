@@ -15,6 +15,7 @@ import { useEffect, useState } from 'react'
 
 import { show, hide } from './app/features/gradientSlice'
 import BlogPage from './components/BlogPage'
+import Author from './components/Author'
 
 // import { ShaderGradientCanvas, ShaderGradient } from 'shadergradient'
 // import * as reactSpring from '@react-spring/three'
@@ -107,6 +108,11 @@ const App = () => {
             <Route path="/blog/:blogId" element={
               <ProtectedRoute>
                 <BlogPage />
+              </ProtectedRoute>
+            } />
+            <Route path='/author/:id' element={
+              <ProtectedRoute>
+                <Author />
               </ProtectedRoute>
             } />
           </Routes>

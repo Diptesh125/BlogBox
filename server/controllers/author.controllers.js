@@ -11,11 +11,27 @@ export const getAuthorDetails = async (req, res) => {
     }
 };
 
-export const getBlogsByAuthor = async (req, res) => {
+export const getAuthor = async (req, res) => {
     try {
-        const blogs = await Blog.find({ authorId: req.params.id });
-        res.json(blogs);
+        const authorId = req.params.id;
+
+        // Fetch author details
+        const author = await Author.findOne({ authorId: authorId });
+
+        // Fetch all blogs by this author
+        const blogs = await Blog.find({ authorId: authorId });
+
+        // Calculate total likes across all blogs
+        const totalLikes = blogs.reduce((sum, blog) => sum + blog.likeCount.length, 0);
+
+        // Return author details, blogs, total likes, and follower count
+        res.json({
+            author,
+            blogs,
+            totalLikes,
+            // followerCount: author.followers.length 
+        });
     } catch (error) {
-        res.status(500).send('Error fetching blogs');
+        res.status(500).json({ error: 'Error fetching author details' });
     }
-};
+}

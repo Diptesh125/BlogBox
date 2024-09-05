@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useUser } from '@clerk/clerk-react';
@@ -22,6 +23,7 @@ const BlogPage = () => {
     const [showShareModal, setShowShareModal] = useState(false);
     const { user } = useUser()
     const userId = user.id
+
 
     const dispatch = useDispatch()
 
@@ -78,7 +80,9 @@ const BlogPage = () => {
             </div>
             <div className='h-10 w-full flex justify-between items-center mt-2'>
                 {/* Display other details as needed */}
-                <p className='h-full font-medium text-text-200 dark:text-darkText-200 px-2 pt-[5px] pb-1 border-[1px] border-accent-100 rounded-lg flex items-center'>{`${blog.authorFirstName} ${blog.authorLastName}`}</p>
+                <Link to={`/author/${blog.authorId}`} className="h-full font-medium text-text-200 dark:text-darkText-200 px-2 pt-[5px] pb-1 border-[1px] border-accent-100 rounded-lg flex items-center">
+                    {`${blog.authorFirstName} ${blog.authorLastName}`}
+                </Link>
                 <div className='h-full font-[Poppins-Regular] font-medium text-base flex justify-center flex-wrap'>
                     <p className='h-full text-text-200 dark:text-darkText-200 px-2 pt-[5px] pb-1 border-[1px] border-accent-100 rounded-lg flex items-center'>{blog.tags.join(', ')}</p>
                 </div>
