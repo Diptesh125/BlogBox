@@ -12,7 +12,7 @@ const BlogCard = (props) => {
     const tagsArray = props.tags || [];
     const authorFullName = props.author;
 
-    const truncatedText = text.substring(0, 200) + '...';
+    const truncatedText = text.substring(0, 170) + '...';
 
     return (
         <Link to={`/blog/${props.id}`}>

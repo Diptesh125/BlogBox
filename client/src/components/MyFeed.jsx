@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import BlogCard from './BlogCard'; // Adjust the import path as necessary
 import Navbar from './Navbar';
+import { Link } from 'react-router-dom';
 
 const MyFeed = () => {
     const [allBlogs, setAllBlogs] = useState([]);
     const [allAuthors, setAllAuthors] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+
 
     useEffect(() => {
         const fetchBlogs = async () => {
@@ -26,6 +29,16 @@ const MyFeed = () => {
 
         fetchBlogs();
     }, []);
+
+    const handleSearchChange = (event) => {
+        setSearchTerm(event.target.value.toLowerCase());
+    };
+
+    const filteredBlogs = allBlogs.filter(blog =>
+        blog.title.toLowerCase().includes(searchTerm) ||
+        blog.description.toLowerCase().includes(searchTerm) ||
+        blog.tags.some(tag => tag.toLowerCase().includes(searchTerm))
+    );
 
     return (
         <div className="my-feed h-full container mx-auto">
@@ -91,6 +104,7 @@ const MyFeed = () => {
                                 type="text"
                                 placeholder="Search..."
                                 className="w-full p-2 border border-gray-300 rounded"
+                                onChange={handleSearchChange}
                             />
                         </div>
 
@@ -99,9 +113,9 @@ const MyFeed = () => {
                             <h2 className="text-3xl font-bold mb-2 text-text-100 dark:text-darkText-100">Authors</h2>
                             <ul className='text-text-200 dark:text-darkText-200' >
                                 {allAuthors.map((author) => (
-                                    <li key={author.authorId} className="mb-2">
+                                    <Link to={`/author/${author.authorId}`} className="h-full font-medium text-text-200 dark:text-darkText-200 pt-[5px] pb-1 flex items-center">
                                         {`${author.firstName} ${author.lastName}`}
-                                    </li>
+                                    </Link>
                                 ))}
                             </ul>
                         </div>

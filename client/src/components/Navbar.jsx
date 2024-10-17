@@ -37,8 +37,7 @@ const Navbar = () => {
             </div>
 
             <div className='flex flex-col md:flex-row justify-center items-center font-[GillSans] text-md text-text-200 hover:text-text-100 pt-1 dark:text-white'>
-                <button className='px-4 py-2 md:py-0 hover:bg-darkPrimary-200 dark:hover:text-text-200 w-full md:w-auto' onClick={() => navigate('/MyFeed')}>{isSignedIn ? 'My Feed' : 'Home'}</button>
-                <button className='px-4 py-2 md:py-0 hover:bg-darkPrimary-200 dark:hover:text-text-200 w-full md:w-auto' onClick={() => navigate('/Explore')}>Explore</button>
+                <button className='px-4 py-2 md:py-2 hover:rounded-full hover:bg-darkPrimary-200 dark:hover:text-text-200 w-full md:w-auto' onClick={() => navigate('/MyFeed')}>{isSignedIn ? 'My Feed' : 'Home'}</button>
             </div>
 
             <div className='flex items-center'>
