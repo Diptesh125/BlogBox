@@ -1,5 +1,12 @@
 # BlogBox
 
+## Team Members
+ - Ashesh Bandopadhyay (Team Lead)
+ - Diptesh Naskar
+ - Debopriya Jana
+ - Sanchita Chowdhury
+ - Gopal Dhali
+
 ## Development Setup
 
 To set up BlogBox for development:
